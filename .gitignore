@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv/
+venv/
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+
+# Temp / Scratch
+*.tmp
+*.bak
+
+# Daily Tokenomics CSV Logs (keep examples/ tracked)
+tokenomics-*.csv
+!examples/sample-tokenomics-*.csv
+
+# Copilot Tracking Artifacts
+.copilot-tracking/
