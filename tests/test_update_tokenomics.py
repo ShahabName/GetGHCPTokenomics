@@ -101,6 +101,33 @@ class TestGetGHCPTokenomics(unittest.TestCase):
                 reader = csv.DictReader(f)
                 self.assertEqual(reader.fieldnames, ut.HEADERS)
 
+    def test_given_repo_and_website_snippets_when_inspected_then_preserve_default_chat_output_rule_is_present(self):
+        # Arrange
+        repo_root = Path(__file__).resolve().parent.parent
+        heading = "## Preserve default VS Code chat output"
+        bullet_one = "strictly additive and must **never** replace, suppress, or alter VS Code's normal chat response or built-in tool defaults."
+        bullet_two = "Always display the complete user-facing explanation, analysis, or report in the chat response"
+        markdown_files = [
+            repo_root / "instructions" / "global-instructions-snippet.md",
+            repo_root / "instructions" / "tokenomics.instructions.md",
+            repo_root / "README.md",
+            repo_root / "LINKEDIN_ARTICLE.md",
+            repo_root / "linkedin" / "LINKEDIN_ARTICLE.md",
+        ]
+        html_file = repo_root / "docs" / "index.html"
+
+        # Act & Assert
+        for md_path in markdown_files:
+            content = md_path.read_text(encoding="utf-8")
+            self.assertIn(heading, content, f"Missing heading in {md_path}")
+            self.assertIn(bullet_one, content, f"Missing first bullet in {md_path}")
+            self.assertIn(bullet_two, content, f"Missing second bullet in {md_path}")
+
+        html_content = html_file.read_text(encoding="utf-8")
+        self.assertEqual(html_content.count(heading), 2, "Expected heading in both static <pre> and JS updatePaths() in docs/index.html")
+        self.assertEqual(html_content.count(bullet_one), 2)
+        self.assertEqual(html_content.count(bullet_two), 2)
+
 
 if __name__ == "__main__":
     unittest.main()
