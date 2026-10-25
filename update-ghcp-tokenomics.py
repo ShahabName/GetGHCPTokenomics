@@ -218,7 +218,7 @@ def parse_session_turns(session_id: str, events_path: str | Path) -> list[dict[s
                 usage = data.get("usage", {})
                 init = usage.get("initiator", "agent")
 
-                if init == "user" or current_turn is None:
+                if init == "user" or pending_user_msg is not None or current_turn is None:
                     if current_turn is not None and current_turn["records"]:
                         turns.append(current_turn)
                     prompt_text = pending_user_msg or "(user prompt)"
