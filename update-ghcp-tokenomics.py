@@ -85,10 +85,10 @@ def resolve_instructions_file(custom_path: str | None = None) -> Path | None:
 
 def is_tokenomics_enabled(custom_instructions_path: str | None = None) -> tuple[bool, str]:
     """
-    Check whether GetGHCPTokenomics is enabled via:
+    Check whether in-chat ## Tokenomics preview is enabled via:
     1. Environment variable GETTOKENOMICS_ENABLED
     2. TOKENOMICS_SWITCH: ON|OFF inside global.instructions.md / tokenomics.instructions.md
-    Defaults to True (ON) if no explicit OFF switch is found.
+    Defaults to False (OFF) so first-time deployments consume zero extra chat tokens until opted in.
     """
     env_val = os.environ.get("GETTOKENOMICS_ENABLED", "").strip().upper()
     if env_val in {"0", "OFF", "FALSE", "NO", "DISABLED"}:
@@ -108,7 +108,7 @@ def is_tokenomics_enabled(custom_instructions_path: str | None = None) -> tuple[
         except OSError:
             pass
 
-    return True, "default (ON)"
+    return False, "default (OFF)"
 
 
 def set_tokenomics_switch(enable: bool, custom_instructions_path: str | None = None) -> Path:
@@ -463,7 +463,12 @@ def main() -> int:
     parser.add_argument(
         "--force",
         action="store_true",
-        help="Run even if TOKENOMICS_SWITCH is set to OFF",
+        help="Run CSV sync regardless of TOKENOMICS_SWITCH state (default for CLI runs)",
+    )
+    parser.add_argument(
+        "--respect-switch",
+        action="store_true",
+        help="Skip CSV sync if TOKENOMICS_SWITCH is OFF",
     )
     parser.add_argument(
         "--markdown",
@@ -484,7 +489,7 @@ def main() -> int:
         print(f"TOKENOMICS_SWITCH: {state_str} (source: {source})")
         return 0
 
-    if not enabled and not args.force:
+    if args.respect_switch and not enabled and not args.force:
         print(f"TOKENOMICS_STATUS: OFF (skipped via {source})")
         return 0
 
@@ -500,7 +505,18 @@ def main() -> int:
                     candidates.append((ev.stat().st_mtime, entry.name))
         candidates.sort(reverse=True)
         if candidates:
-            session_ids = [candidates[0][1]]
+            same_day = [
+                sid
+                for mtime, sid in reversed(candidates)
+                if datetime.datetime.fromtimestamp(mtime).strftime("%Y%m%d") == args.date
+            ]
+            latest_sid = candidates[0][1]
+            if same_day:
+                if latest_sid not in same_day:
+                    same_day.append(latest_sid)
+                session_ids = same_day
+            else:
+                session_ids = [latest_sid]
 
     csv_name = f"tokenomics-{args.date}.csv"
     csv_path = Path(args.workspace) / csv_name

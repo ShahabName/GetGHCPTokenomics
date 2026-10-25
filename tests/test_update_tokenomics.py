@@ -22,19 +22,19 @@ class TestGetGHCPTokenomics(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             inst = Path(tmp) / "global.instructions.md"
             inst.write_text(
-                "# Global Instructions\n- **Tokenomics Tracking Switch**: `TOKENOMICS_SWITCH: ON`\n",
+                "# Global Instructions\n- **Tokenomics Tracking Switch**: `TOKENOMICS_SWITCH: OFF`\n",
                 encoding="utf-8",
             )
             enabled, _ = ut.is_tokenomics_enabled(str(inst))
-            self.assertTrue(enabled)
-
-            ut.set_tokenomics_switch(False, str(inst))
-            enabled_after_off, _ = ut.is_tokenomics_enabled(str(inst))
-            self.assertFalse(enabled_after_off)
+            self.assertFalse(enabled)
 
             ut.set_tokenomics_switch(True, str(inst))
             enabled_after_on, _ = ut.is_tokenomics_enabled(str(inst))
             self.assertTrue(enabled_after_on)
+
+            ut.set_tokenomics_switch(False, str(inst))
+            enabled_after_off, _ = ut.is_tokenomics_enabled(str(inst))
+            self.assertFalse(enabled_after_off)
 
     def test_parse_and_update_csv(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -123,6 +123,7 @@ class TestGetGHCPTokenomics(unittest.TestCase):
             self.assertIn(heading, content, f"Missing heading in {md_path}")
             self.assertIn(bullet_one, content, f"Missing first bullet in {md_path}")
             self.assertIn(bullet_two, content, f"Missing second bullet in {md_path}")
+            self.assertIn("TOKENOMICS_SWITCH: OFF", content, f"Default OFF switch missing in {md_path}")
             self.assertNotIn("update-tokenomics.py", content, f"Old script name found in {md_path}")
 
         html_content = html_file.read_text(encoding="utf-8")
