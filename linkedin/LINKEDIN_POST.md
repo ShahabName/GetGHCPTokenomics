@@ -16,7 +16,7 @@ Most teams assume you need a custom VS Code extension, an enterprise API key, or
 
 Turns out—you don't need any of that! 💡
 
-By combining **1 pure-Python script** (`update-tokenomics.py`, zero `pip` packages) with a modular block inside your personal **`~/.copilot/instructions/global.instructions.md`**, Copilot automatically parses its own local session stream (`events.jsonl`) at the end of every prompt:
+By combining **1 pure-Python script** (`update-ghcp-tokenomics.py`, zero `pip` packages) with a modular block inside your personal **`~/.copilot/instructions/global.instructions.md`**, Copilot automatically parses its own local session stream (`events.jsonl`) at the end of every prompt:
 
 ✅ Logs **29 telemetry columns** into a daily `tokenomics-CCYYMMDD.csv` in your workspace
 ✅ Prints a live **`## Tokenomics` summary table** + clickable CSV/file links at the end of every chat response

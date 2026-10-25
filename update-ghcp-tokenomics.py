@@ -62,6 +62,7 @@ HEADERS: list[str] = [
 
 DEFAULT_INSTRUCTIONS_CANDIDATES: list[Path] = [
     Path.home() / ".copilot" / "instructions" / "global.instructions.md",
+    Path.home() / ".copilot" / "instructions" / "ghcp-tokenomics.instructions.md",
     Path.home() / ".copilot" / "instructions" / "tokenomics.instructions.md",
 ]
 

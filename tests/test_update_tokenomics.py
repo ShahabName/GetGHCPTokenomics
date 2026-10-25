@@ -5,8 +5,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-MODULE_PATH = Path(__file__).resolve().parent.parent / "update-tokenomics.py"
-spec = importlib.util.spec_from_file_location("update_tokenomics", MODULE_PATH)
+MODULE_PATH = Path(__file__).resolve().parent.parent / "update-ghcp-tokenomics.py"
+spec = importlib.util.spec_from_file_location("update_ghcp_tokenomics", MODULE_PATH)
 assert spec and spec.loader
 ut = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(ut)
@@ -105,7 +105,8 @@ class TestGetGHCPTokenomics(unittest.TestCase):
         # Arrange
         repo_root = Path(__file__).resolve().parent.parent
         heading = "## Preserve default VS Code chat output"
-        bullet_one = "strictly additive and must **never** replace, suppress, or alter VS Code's normal chat response or built-in tool defaults."
+        bullet_one = "Recording tokenomics (`update-ghcp-tokenomics.py`) and appending `## Tokenomics` and `## Files` are strictly additive and must **never** replace, suppress, or alter VS Code's normal chat response or built-in tool defaults."
+        bullet_one_js = r"Recording tokenomics (\`update-ghcp-tokenomics.py\`) and appending \`## Tokenomics\` and \`## Files\` are strictly additive and must **never** replace, suppress, or alter VS Code's normal chat response or built-in tool defaults."
         bullet_two = "Always display the complete user-facing explanation, analysis, or report in the chat response"
         markdown_files = [
             repo_root / "instructions" / "global-instructions-snippet.md",
@@ -122,11 +123,14 @@ class TestGetGHCPTokenomics(unittest.TestCase):
             self.assertIn(heading, content, f"Missing heading in {md_path}")
             self.assertIn(bullet_one, content, f"Missing first bullet in {md_path}")
             self.assertIn(bullet_two, content, f"Missing second bullet in {md_path}")
+            self.assertNotIn("update-tokenomics.py", content, f"Old script name found in {md_path}")
 
         html_content = html_file.read_text(encoding="utf-8")
         self.assertEqual(html_content.count(heading), 2, "Expected heading in both static <pre> and JS updatePaths() in docs/index.html")
-        self.assertEqual(html_content.count(bullet_one), 2)
+        self.assertIn(bullet_one, html_content)
+        self.assertIn(bullet_one_js, html_content)
         self.assertEqual(html_content.count(bullet_two), 2)
+        self.assertNotIn("update-tokenomics.py", html_content, "Old script name found in docs/index.html")
 
 
 if __name__ == "__main__":

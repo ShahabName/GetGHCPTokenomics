@@ -104,9 +104,9 @@
   <g transform="translate(442, 156)">
     <rect width="316" height="230" rx="14" fill="url(#cardGrad)" stroke="#818CF8" stroke-opacity="0.5" stroke-width="1.5"/>
     <rect x="0" y="0" width="316" height="38" rx="14" fill="#1E293B"/>
-    <text x="20" y="24" class="card-title">2. update-tokenomics.py</text>
+    <text x="20" y="24" class="card-title">2. update-ghcp-tokenomics.py</text>
 
-    <text x="20" y="64" class="code"><tspan class="code-kw">$ python</tspan> update-tokenomics.py</text>
+    <text x="20" y="64" class="code"><tspan class="code-kw">$ python</tspan> update-ghcp-tokenomics.py</text>
     <rect x="20" y="78" width="276" height="1" fill="#334155"/>
 
     <text x="20" y="102" class="code">• Parses <tspan class="code-val">user.message</tspan> &amp; turns</text>

@@ -8,7 +8,7 @@ applyTo: "**"
 ## Record and report daily tokenomics at the end of execution
 
 - **Tokenomics Tracking Switch**: `TOKENOMICS_SWITCH: ON` *(Change to `OFF` to disable tokenomics CSV logging and response reporting; change to `ON` to enable)*
-- **Switch Rule**: Before recording or reporting tokenomics, check `TOKENOMICS_SWITCH` above. If it is set to `OFF`, skip running `update-tokenomics.py`, do not create or modify `tokenomics-CCYYMMDD.csv`, and omit the `## Tokenomics` section from the response.
+- **Switch Rule**: Before recording or reporting tokenomics, check `TOKENOMICS_SWITCH` above. If it is set to `OFF`, skip running `update-ghcp-tokenomics.py`, do not create or modify `tokenomics-CCYYMMDD.csv`, and omit the `## Tokenomics` section from the response.
 
 When `TOKENOMICS_SWITCH: ON`, at the end of every prompt or task execution, record the prompt's tokenomics and AIC/AIU consumption in today's daily CSV file in the workspace root (`tokenomics-CCYYMMDD.csv`, where `CCYYMMDD` is the current date in `YYYYMMDD` format, such as `tokenomics-20261024.csv`) and display a summary in the final response.
 
@@ -19,9 +19,9 @@ When `TOKENOMICS_SWITCH: ON`, at the end of every prompt or task execution, reco
 - If `tokenomics-CCYYMMDD.csv` does not exist yet, create it with the 29 header columns above.
 - If `tokenomics-CCYYMMDD.csv` already exists, append the latest prompt turn tokenomics data from `C:\Users\YourAliasName\.copilot\session-state\<session-id>\events.jsonl` (or `~/.copilot/session-state/<session-id>/events.jsonl` on macOS/Linux) and refresh any previous turn in the session whose final tool-call usage settled after the prior turn. Run:
   ```bash
-  python "C:\Users\YourAliasName\.copilot\instructions\update-tokenomics.py"
+  python "C:\Users\YourAliasName\.copilot\instructions\update-ghcp-tokenomics.py"
   ```
-  *(or on macOS/Linux: `python3 "$HOME/.copilot/instructions/update-tokenomics.py"`)* to perform this check, creation, and append automatically.
+  *(or on macOS/Linux: `python3 "$HOME/.copilot/instructions/update-ghcp-tokenomics.py"`)* to perform this check, creation, and append automatically.
 - At the end of every prompt response (immediately above `## Files`), include a `## Tokenomics` section showing the tokenomics usage data recorded in `tokenomics-CCYYMMDD.csv` (model, API calls, input/cache/output/reasoning tokens, cache hit %, total NanoAIU, total AIU/AIC credits, duration, and a clickable link to `[tokenomics-CCYYMMDD.csv](C:/full/absolute/path/to/tokenomics-CCYYMMDD.csv)` using its absolute filesystem path with `/` separators).
 
 ## Report generated files at the end of execution
@@ -40,5 +40,5 @@ At the end of every prompt or task execution, list every file that was created, 
 
 ## Preserve default VS Code chat output
 
-- Recording tokenomics (`update-tokenomics.py`) and appending `## Tokenomics` and `## Files` are strictly additive and must **never** replace, suppress, or alter VS Code's normal chat response or built-in tool defaults.
+- Recording tokenomics (`update-ghcp-tokenomics.py`) and appending `## Tokenomics` and `## Files` are strictly additive and must **never** replace, suppress, or alter VS Code's normal chat response or built-in tool defaults.
 - Always display the complete user-facing explanation, analysis, or report in the chat response, with `## Tokenomics` and `## Files` appended at the end.

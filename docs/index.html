@@ -239,7 +239,7 @@
       </p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#setup">🚀 2-Minute Setup Guide</a>
-        <a class="btn btn-outline" href="https://raw.githubusercontent.com/ShahabName/GetGHCPTokenomics/main/update-tokenomics.py" target="_blank" rel="noopener">⬇️ Download update-tokenomics.py</a>
+        <a class="btn btn-outline" href="https://raw.githubusercontent.com/ShahabName/GetGHCPTokenomics/main/update-ghcp-tokenomics.py" target="_blank" rel="noopener">⬇️ Download update-ghcp-tokenomics.py</a>
         <a class="btn btn-outline" href="https://github.com/ShahabName/GetGHCPTokenomics" target="_blank" rel="noopener">⭐ Star on GitHub</a>
         <a class="btn btn-outline" href="https://www.linkedin.com/in/shahabm/" target="_blank" rel="noopener">💼 linkedin.com/in/shahabm</a>
       </div>
@@ -259,11 +259,11 @@
         </div>
         <div class="card">
           <h3>🎛️ Modular ON / OFF Switch</h3>
-          <p>Flip <code>TOKENOMICS_SWITCH: ON</code> or <code>OFF</code> directly inside <code>global.instructions.md</code> or run <code>python update-tokenomics.py --off</code> in 1 second whenever you want quiet responses.</p>
+          <p>Flip <code>TOKENOMICS_SWITCH: ON</code> or <code>OFF</code> directly inside <code>global.instructions.md</code> or run <code>python update-ghcp-tokenomics.py --off</code> in 1 second whenever you want quiet responses.</p>
         </div>
         <div class="card">
           <h3>🔄 Multi-Turn Settlement Accuracy</h3>
-          <p>Agentic turns invoke multiple tools before finishing. <code>update-tokenomics.py</code> automatically reconciles previous turns whose final tool-call usage settled after the response rendered.</p>
+          <p>Agentic turns invoke multiple tools before finishing. <code>update-ghcp-tokenomics.py</code> automatically reconciles previous turns whose final tool-call usage settled after the response rendered.</p>
         </div>
       </div>
     </section>
@@ -317,17 +317,17 @@
       <!-- STEP 1 -->
       <div class="step-card">
         <span class="step-num">STEP 1 OF 4</span>
-        <h3>Download <code>update-tokenomics.py</code> into your <code>.copilot/instructions</code> folder</h3>
+        <h3>Download <code>update-ghcp-tokenomics.py</code> into your <code>.copilot/instructions</code> folder</h3>
         <p style="color: var(--muted);">Run this one-liner in PowerShell (Windows) or Terminal (macOS/Linux) to save the script in your user directory:</p>
         <div class="code-header">
           <span>PowerShell (Windows)</span>
           <button class="copy-btn" onclick="copyCode('cmdStep1', this)">Copy Command</button>
         </div>
         <pre id="cmdStep1">New-Item -ItemType Directory -Force "C:\Users\YourAliasName\.copilot\instructions" | Out-Null
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/ShahabName/GetGHCPTokenomics/main/update-tokenomics.py" `
-  -OutFile "C:\Users\YourAliasName\.copilot\instructions\update-tokenomics.py"</pre>
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/ShahabName/GetGHCPTokenomics/main/update-ghcp-tokenomics.py" `
+  -OutFile "C:\Users\YourAliasName\.copilot\instructions\update-ghcp-tokenomics.py"</pre>
         <div class="screenshot-frame">
-          <img src="assets/screenshots/step-1-download-script.png" alt="Step 1: Download update-tokenomics.py screenshot" />
+          <img src="assets/screenshots/step-1-download-script.png" alt="Step 1: Download update-ghcp-tokenomics.py screenshot" />
         </div>
       </div>
 
@@ -343,7 +343,7 @@ Invoke-WebRequest -Uri "https://raw.githubusercontent.com/ShahabName/GetGHCPToke
         <pre id="cmdStep2">## Record and report daily tokenomics at the end of execution
 
 - **Tokenomics Tracking Switch**: `TOKENOMICS_SWITCH: ON` *(Change to `OFF` to disable tokenomics CSV logging and response reporting; change to `ON` to enable)*
-- **Switch Rule**: Before recording or reporting tokenomics, check `TOKENOMICS_SWITCH` above. If it is set to `OFF`, skip running `update-tokenomics.py`, do not create or modify `tokenomics-CCYYMMDD.csv`, and omit the `## Tokenomics` section from the response.
+- **Switch Rule**: Before recording or reporting tokenomics, check `TOKENOMICS_SWITCH` above. If it is set to `OFF`, skip running `update-ghcp-tokenomics.py`, do not create or modify `tokenomics-CCYYMMDD.csv`, and omit the `## Tokenomics` section from the response.
 
 When `TOKENOMICS_SWITCH: ON`, at the end of every prompt or task execution, record the prompt's tokenomics and AIC/AIU consumption in today's daily CSV file in the workspace root (`tokenomics-CCYYMMDD.csv`, where `CCYYMMDD` is the current date in `YYYYMMDD` format, such as `tokenomics-20261024.csv`) and display a summary in the final response.
 
@@ -352,12 +352,12 @@ When `TOKENOMICS_SWITCH: ON`, at the end of every prompt or task execution, reco
   timestamp_utc,session_id,challenge_or_task,turn_index,sequence_id,initiator,router_model,source_model,model_display_name,reasoning_effort,api_calls_count,user_prompt_multiplier,total_request_multiplier_cost,total_input_tokens,uncached_input_tokens,cache_read_tokens,cache_write_tokens,output_tokens,reasoning_tokens,tool_schema_tokens,cache_hit_ratio_pct,total_nano_aiu,total_aiu_credits,duration_ms,ttft_ms,tools_invoked,finish_reason,ai_credits_status,prompt_summary
   ```
 - If `tokenomics-CCYYMMDD.csv` does not exist yet, create it with the 29 header columns above.
-- If `tokenomics-CCYYMMDD.csv` already exists, append the latest prompt turn tokenomics data from `C:\Users\YourAliasName\.copilot\session-state\&lt;session-id&gt;\events.jsonl` (and refresh any previous turn in the session whose final tool-call usage settled after the prior turn). You can run `python "C:\Users\YourAliasName\.copilot\instructions\update-tokenomics.py"` to perform this check, creation, and append automatically.
+- If `tokenomics-CCYYMMDD.csv` already exists, append the latest prompt turn tokenomics data from `C:\Users\YourAliasName\.copilot\session-state\&lt;session-id&gt;\events.jsonl` (and refresh any previous turn in the session whose final tool-call usage settled after the prior turn). You can run `python "C:\Users\YourAliasName\.copilot\instructions\update-ghcp-tokenomics.py"` to perform this check, creation, and append automatically.
 - At the end of every prompt response (immediately above `## Files`), include a `## Tokenomics` section showing the tokenomics usage data recorded in `tokenomics-CCYYMMDD.csv` (model, API calls, input/cache/output/reasoning tokens, cache hit %, total NanoAIU, total AIU/AIC credits, duration, and a clickable link to `[tokenomics-CCYYMMDD.csv](C:/full/absolute/path/to/tokenomics-CCYYMMDD.csv)` using its absolute filesystem path with `/` separators).
 
 ## Preserve default VS Code chat output
 
-- Recording tokenomics (`update-tokenomics.py`) and appending `## Tokenomics` and `## Files` are strictly additive and must **never** replace, suppress, or alter VS Code's normal chat response or built-in tool defaults.
+- Recording tokenomics (`update-ghcp-tokenomics.py`) and appending `## Tokenomics` and `## Files` are strictly additive and must **never** replace, suppress, or alter VS Code's normal chat response or built-in tool defaults.
 - Always display the complete user-facing explanation, analysis, or report in the chat response, with `## Tokenomics` and `## Files` appended at the end.</pre>
         <div class="screenshot-frame">
           <img src="assets/screenshots/step-2-global-instructions-switch.png" alt="Step 2: Global instructions switch screenshot" />
@@ -384,13 +384,13 @@ When `TOKENOMICS_SWITCH: ON`, at the end of every prompt or task execution, reco
           <button class="copy-btn" onclick="copyCode('cmdStep4', this)">Copy CLI Commands</button>
         </div>
         <pre id="cmdStep4"># Check current status (ON or OFF)
-python "C:\Users\YourAliasName\.copilot\instructions\update-tokenomics.py" --status
+python "C:\Users\YourAliasName\.copilot\instructions\update-ghcp-tokenomics.py" --status
 
 # Turn OFF tokenomics tracking
-python "C:\Users\YourAliasName\.copilot\instructions\update-tokenomics.py" --off
+python "C:\Users\YourAliasName\.copilot\instructions\update-ghcp-tokenomics.py" --off
 
 # Turn ON tokenomics tracking
-python "C:\Users\YourAliasName\.copilot\instructions\update-tokenomics.py" --on</pre>
+python "C:\Users\YourAliasName\.copilot\instructions\update-ghcp-tokenomics.py" --on</pre>
         <div class="screenshot-frame">
           <img src="assets/screenshots/step-4-daily-csv-analytics.png" alt="Step 4: 29-Column CSV and CLI Toggle screenshot" />
         </div>
@@ -510,14 +510,14 @@ python "C:\Users\YourAliasName\.copilot\instructions\update-tokenomics.py" --on<
       document.getElementById("instPathInline").textContent = `C:\\Users\\${user}\\.copilot\\instructions\\global.instructions.md`;
       document.getElementById("cmdStep1").textContent =
 `New-Item -ItemType Directory -Force "C:\\Users\\${user}\\.copilot\\instructions" | Out-Null
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/ShahabName/GetGHCPTokenomics/main/update-tokenomics.py" \`
-  -OutFile "C:\\Users\\${user}\\.copilot\\instructions\\update-tokenomics.py"`;
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/ShahabName/GetGHCPTokenomics/main/update-ghcp-tokenomics.py" \`
+  -OutFile "C:\\Users\\${user}\\.copilot\\instructions\\update-ghcp-tokenomics.py"`;
 
       document.getElementById("cmdStep2").textContent =
 `## Record and report daily tokenomics at the end of execution
 
 - **Tokenomics Tracking Switch**: \`TOKENOMICS_SWITCH: ON\` *(Change to \`OFF\` to disable tokenomics CSV logging and response reporting; change to \`ON\` to enable)*
-- **Switch Rule**: Before recording or reporting tokenomics, check \`TOKENOMICS_SWITCH\` above. If it is set to \`OFF\`, skip running \`update-tokenomics.py\`, do not create or modify \`tokenomics-CCYYMMDD.csv\`, and omit the \`## Tokenomics\` section from the response.
+- **Switch Rule**: Before recording or reporting tokenomics, check \`TOKENOMICS_SWITCH\` above. If it is set to \`OFF\`, skip running \`update-ghcp-tokenomics.py\`, do not create or modify \`tokenomics-CCYYMMDD.csv\`, and omit the \`## Tokenomics\` section from the response.
 
 When \`TOKENOMICS_SWITCH: ON\`, at the end of every prompt or task execution, record the prompt's tokenomics and AIC/AIU consumption in today's daily CSV file in the workspace root (\`tokenomics-CCYYMMDD.csv\`, where \`CCYYMMDD\` is the current date in \`YYYYMMDD\` format, such as \`tokenomics-20261024.csv\`) and display a summary in the final response.
 
@@ -526,23 +526,23 @@ When \`TOKENOMICS_SWITCH: ON\`, at the end of every prompt or task execution, re
   timestamp_utc,session_id,challenge_or_task,turn_index,sequence_id,initiator,router_model,source_model,model_display_name,reasoning_effort,api_calls_count,user_prompt_multiplier,total_request_multiplier_cost,total_input_tokens,uncached_input_tokens,cache_read_tokens,cache_write_tokens,output_tokens,reasoning_tokens,tool_schema_tokens,cache_hit_ratio_pct,total_nano_aiu,total_aiu_credits,duration_ms,ttft_ms,tools_invoked,finish_reason,ai_credits_status,prompt_summary
   \`\`\`
 - If \`tokenomics-CCYYMMDD.csv\` does not exist yet, create it with the 29 header columns above.
-- If \`tokenomics-CCYYMMDD.csv\` already exists, append the latest prompt turn tokenomics data from \`C:\\Users\\${user}\\.copilot\\session-state\\<session-id>\\events.jsonl\` (and refresh any previous turn in the session whose final tool-call usage settled after the prior turn). You can run \`python "C:\\Users\\${user}\\.copilot\\instructions\\update-tokenomics.py"\` to perform this check, creation, and append automatically.
+- If \`tokenomics-CCYYMMDD.csv\` already exists, append the latest prompt turn tokenomics data from \`C:\\Users\\${user}\\.copilot\\session-state\\<session-id>\\events.jsonl\` (and refresh any previous turn in the session whose final tool-call usage settled after the prior turn). You can run \`python "C:\\Users\\${user}\\.copilot\\instructions\\update-ghcp-tokenomics.py"\` to perform this check, creation, and append automatically.
 - At the end of every prompt response (immediately above \`## Files\`), include a \`## Tokenomics\` section showing the tokenomics usage data recorded in \`tokenomics-CCYYMMDD.csv\` (model, API calls, input/cache/output/reasoning tokens, cache hit %, total NanoAIU, total AIU/AIC credits, duration, and a clickable link to \`[tokenomics-CCYYMMDD.csv](C:/full/absolute/path/to/tokenomics-CCYYMMDD.csv)\` using its absolute filesystem path with \`/\` separators).
 
 ## Preserve default VS Code chat output
 
-- Recording tokenomics (\`update-tokenomics.py\`) and appending \`## Tokenomics\` and \`## Files\` are strictly additive and must **never** replace, suppress, or alter VS Code's normal chat response or built-in tool defaults.
+- Recording tokenomics (\`update-ghcp-tokenomics.py\`) and appending \`## Tokenomics\` and \`## Files\` are strictly additive and must **never** replace, suppress, or alter VS Code's normal chat response or built-in tool defaults.
 - Always display the complete user-facing explanation, analysis, or report in the chat response, with \`## Tokenomics\` and \`## Files\` appended at the end.`;
 
       document.getElementById("cmdStep4").textContent =
 `# Check current status (ON or OFF)
-python "C:\\Users\\${user}\\.copilot\\instructions\\update-tokenomics.py" --status
+python "C:\\Users\\${user}\\.copilot\\instructions\\update-ghcp-tokenomics.py" --status
 
 # Turn OFF tokenomics tracking
-python "C:\\Users\\${user}\\.copilot\\instructions\\update-tokenomics.py" --off
+python "C:\\Users\\${user}\\.copilot\\instructions\\update-ghcp-tokenomics.py" --off
 
 # Turn ON tokenomics tracking
-python "C:\\Users\\${user}\\.copilot\\instructions\\update-tokenomics.py" --on`;
+python "C:\\Users\\${user}\\.copilot\\instructions\\update-ghcp-tokenomics.py" --on`;
     }
 
     function copyCode(id, btn) {

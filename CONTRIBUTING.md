@@ -6,7 +6,7 @@ Thank you for your interest in contributing to **GetGHCPTokenomics**! This proje
 
 When proposing changes, please keep our core philosophy in mind:
 
-1. **Zero Dependencies**: `update-tokenomics.py` must run using **only the Python 3 Standard Library** (`csv`, `json`, `pathlib`, `argparse`, `re`, `datetime`). Never require `pip install` or third-party packages.
+1. **Zero Dependencies**: `update-ghcp-tokenomics.py` must run using **only the Python 3 Standard Library** (`csv`, `json`, `pathlib`, `argparse`, `re`, `datetime`). Never require `pip install` or third-party packages.
 2. **Zero Organization / Admin Permissions**: Everything must operate strictly on local user-directory files (`~/.copilot/session-state/` and `~/.copilot/instructions/`) without requiring VS Code extensions, API tokens, or enterprise admin consent.
 3. **Instant ON/OFF Modularity**: The `TOKENOMICS_SWITCH: ON | OFF` toggle must always remain simple to flip either in the instructions file or via CLI (`--on` / `--off`).
 4. **Backward-Compatible 29-Column Schema**: Preserve the canonical 29-column CSV header order so existing dashboards, Excel workbooks, and Power BI / Python analytics pipelines continue working without breakage.
@@ -32,14 +32,14 @@ python -m unittest discover -s tests -v
 
 ```bash
 # Check switch status
-python update-tokenomics.py --status
+python update-ghcp-tokenomics.py --status
 
 # Toggle switch OFF and verify skip behavior
-python update-tokenomics.py --off
-python update-tokenomics.py
+python update-ghcp-tokenomics.py --off
+python update-ghcp-tokenomics.py
 
 # Toggle switch back ON
-python update-tokenomics.py --on
+python update-ghcp-tokenomics.py --on
 ```
 
 ### 4. Submit a Pull Request
